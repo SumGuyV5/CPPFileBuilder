@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="Builders\cBaseBuilder.cpp">
+      <Filter>Builder</Filter>
+    </ClCompile>
+    <ClCompile Include="Builders\cHeaderBuilder.cpp">
+      <Filter>Builder</Filter>
+    </ClCompile>
+    <ClCompile Include="Builders\cSourceBuilder.cpp">
+      <Filter>Builder</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI\cppfilebuilder.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI\cppfilebuilderapp.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="GUI\createclass.cpp">
+      <Filter>GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\cClassModel.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\cVariableModel.cpp">
+      <Filter>Model</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Builders\cBaseBuilder.hpp">
+      <Filter>Builder</Filter>
+    </ClInclude>
+    <ClInclude Include="Builders\cHeaderBuilder.hpp">
+      <Filter>Builder</Filter>
+    </ClInclude>
+    <ClInclude Include="Builders\cSourceBuilder.hpp">
+      <Filter>Builder</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI\cppfilebuilder.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI\cppfilebuilderapp.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="GUI\createclass.h">
+      <Filter>GUI</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\cClassModel.hpp">
+      <Filter>Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\cVariableModel.hpp">
+      <Filter>Model</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="CPPFileBuilder.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Builder">
+      <UniqueIdentifier>{c4845855-75b0-406e-9884-9ad9e613402a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GUI">
+      <UniqueIdentifier>{58a29e38-7319-4135-93e1-e2d27375969a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Model">
+      <UniqueIdentifier>{87c40cf6-4abe-420f-b77a-2b4889170b15}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
