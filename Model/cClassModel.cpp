@@ -1,3 +1,13 @@
+/////////////////////////////////////////////////////////////////////////////
+// Name:        cClassModel.cpp
+// Purpose:     
+// Author:      Richard W. Allen
+// Modified by: 
+// Created:     14/07/2018 21:38:08
+// RCS-ID:      
+// Copyright:   (C) 2017 Richard W. Allen
+// Licence:     GPL 2
+/////////////////////////////////////////////////////////////////////////////
 #include "cClassModel.hpp"
 
 #include "../Builders/cHeaderBuilder.hpp"
@@ -11,11 +21,41 @@ cClassModel::cClassModel(const std::string& name, const std::string& nameSpace)
 {
 }
 
+cClassModel::cClassModel(cClassModel & copy)
+{
+	Copy(copy);
+}
+
 cClassModel::~cClassModel()
 {
 	DeleteVariables();
 }
 
+cClassModel& cClassModel::Copy(cClassModel& copy, bool deep /*= true*/)
+{
+	if (this != &copy)
+	{
+		this->DeleteVariables();
+		m_name = copy.getName();
+		m_nameSpace = copy.getNameSpace();
+		m_singleton = copy.getSingleton();
+
+		if (deep == true) {
+			std::vector<Model::cVariableModel*>::iterator it;
+
+			Model::cVariableModel* tmp = nullptr;
+			for (it = copy.getVariables().begin(); it < copy.getVariables().end(); it++) {
+				tmp = new Model::cVariableModel(*(*it));
+				m_variables.push_back(tmp);
+			}
+		}
+		else {
+			m_variables = copy.getVariables();
+		}
+		m_inheritance = copy.getInheritance();
+	}
+	return *this;
+}
 void cClassModel::BuildCPPFile()
 {
 	BuildHeaderFile();

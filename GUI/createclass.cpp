@@ -6,7 +6,7 @@
 // Created:     14/07/2018 21:38:08
 // RCS-ID:      
 // Copyright:   (C) 2017 Richard W. Allen
-// Licence:     
+// Licence:     GPL 2
 /////////////////////////////////////////////////////////////////////////////
 
 // For compilers that support precompilation, includes "wx/wx.h".
@@ -97,13 +97,8 @@ bool CreateClass::Create( wxWindow* parent, wxWindowID id, const wxString& capti
 
 CreateClass::~CreateClass()
 {
-	std::vector<Model::cVariableModel*>::iterator it;
-
-	for (it = m_varList.begin(); it < m_varList.end(); it++) {
-		delete (*it);
-		(*it) = nullptr;
-	}
-	m_varList.clear();
+	delete mp_classModel;
+	mp_classModel = nullptr;
 ////@begin CreateClass destruction
 ////@end CreateClass destruction
 }
@@ -118,7 +113,7 @@ void CreateClass::Init()
 ////@begin CreateClass member initialisation
     m_copy = false;
     m_edit = false;
-    mp_classModel = nullptr;
+    mp_classModel = new Model::cClassModel("", "");
     mp_classNameTxt = NULL;
     mp_singletonChk = NULL;
     mp_nameSpaceTxt = NULL;
@@ -174,11 +169,12 @@ void CreateClass::CreateControls()
 
 void CreateClass::OnDeleteVarClick( wxCommandEvent& event )
 {
+	std::vector<Model::cVariableModel*> varList = mp_classModel->getVariables();
 	for (int count = 0; count < mp_varList->GetCount(); count++) {
 		if (mp_varList->IsChecked(count) == true) {
 			mp_varList->Delete(count);
-			Model::cVariableModel* tmp = m_varList.at(count);
-			m_varList.erase(m_varList.begin() + count);
+			Model::cVariableModel* tmp = varList.at(count);
+			varList.erase(varList.begin() + count);
 			delete tmp;
 			tmp = nullptr;
 			count--;
@@ -234,13 +230,13 @@ void CreateClass::OnAddVarClick( wxCommandEvent& event )
 
 	std::vector<Model::cVariableModel*>::iterator it;
 
-	for (it = m_varList.begin(); it < m_varList.end(); it++) {
-		if ((*it) == tmp) /// this variable name is already used.
+	for (it = mp_classModel->getVariables().begin(); it < mp_classModel->getVariables().end(); it++) {
+		if ((*it)->getName() == tmp->getName()) /// this variable name is already used.
 			found = true; 
 	}
 
 	if (found == false) {
-		m_varList.push_back(tmp);
+		mp_classModel->getVariables().push_back(tmp);
 		mp_varList->AppendString(tmp->StringBuild());
 	}
 	else {
@@ -268,42 +264,37 @@ void CreateClass::OnOKClick( wxCommandEvent& event )
 	wxString nameSpace = mp_nameSpaceTxt->GetValue();
 
 	if (nameClass.empty() == false) {
+		Model::cClassModel* tmp = wxGetApp().getClassModel(nameClass, nameSpace);
 		
-		Model::cClassModel* classModule = nullptr;
-
-		// if this is an edit or copy get the ClassModule
-		if ((m_edit == true) || (m_copy == true))
-			classModule = wxGetApp().getClassModule(nameClass, nameSpace);
-
-		// if this is a copy we should not have found when we executed the above method.
-		if (m_copy == true && classModule != nullptr)
-			wxMessageBox(wxT("Please Rename Class Found."), wxT("This is an Error."));
+		// if tmp is not nullptr the class is not unique. Tell the user.
+		if (tmp != nullptr && m_edit == false) {
+			wxMessageBox(wxT("Please Rename Class or Chanage the Name Space. There is already a Class with this name."), wxT("This is an Error."));
+			mp_nameSpaceTxt->SetBackgroundColour({ 255, 0, 0 });
+			mp_classNameTxt->SetBackgroundColour({ 255, 0, 0 });
+		}
 		else {
 			// if this is a copy or a new class make it.
-			if ((m_edit == false) || (m_copy == true))
-				classModule = new Model::cClassModel(nameClass.ToStdString(), nameSpace.ToStdString());
-			
-			classModule->setSingleton(mp_singletonChk->GetValue());
-
-			GetInheritance(*classModule);
-
-			classModule->DeleteVariables();
-
-			std::vector<Model::cVariableModel*>::iterator it;
-
-			for (it = m_varList.begin(); it < m_varList.end(); it++) {
-				classModule->setVariables(*it);
+			if ((m_edit == false) || (m_copy == true)) {
+				mp_classModel->setName(nameClass.ToStdString());
+				mp_classModel->setNameSpace(nameSpace.ToStdString());
 			}
-			m_varList.clear();
+			
+			mp_classModel->setSingleton(mp_singletonChk->GetValue());
 
-			if (m_edit == false)
-				wxGetApp().setClassesModule(classModule);
+			GetInheritance(*mp_classModel);
 
+			if (m_edit == false) {
+				wxGetApp().setClassesModel(new Model::cClassModel(*mp_classModel));
+			}
+			else {
+				tmp->Copy(*mp_classModel);
+			}
 			this->Close();
 		}		
 	}
 	else {
 		wxMessageBox(wxT("No Class Name Found."), wxT("This is an Error."));
+		mp_classNameTxt->SetBackgroundColour({ 255, 0, 0 });
 	}
 ////@begin wxEVT_COMMAND_BUTTON_CLICKED event handler for ID_BUTTON2 in CreateClass.
     // Before editing this code, remove the block markers.
@@ -368,6 +359,8 @@ wxIcon CreateClass::GetIconResource( const wxString& name )
 void CreateClass::EditClass(const wxString& name)
 {
     m_edit = true;
+
+	this->SetTitle("Editing Class " + name);
     
     mp_classNameTxt->Enable(false);
     mp_nameSpaceTxt->Enable(false);
@@ -381,6 +374,9 @@ void CreateClass::EditClass(const wxString& name)
 void CreateClass::CopyClass(const wxString& name)
 {
     m_copy = true;
+
+	this->SetTitle("Copying Class " + name);
+
     ClassSetup(name);
 }
 
@@ -390,17 +386,25 @@ void CreateClass::CopyClass(const wxString& name)
 
 void CreateClass::ClassSetup(const wxString& name)
 {
-    Model::cClassModel* tmp = wxGetApp().getClassModule(name);
+	Model::cClassModel* tmp = wxGetApp().getClassModel(name);
     if (tmp == nullptr) {
         wxMessageBox(wxT("Error Class Not Found."), wxT("This is an Error."));
     }
     else {
-        mp_classNameTxt->SetValue(tmp->getName());
-        mp_nameSpaceTxt->SetValue(tmp->getNameSpace());
-        mp_singletonChk->SetValue(tmp->getSingleton());
+		mp_classModel->Copy(*tmp);
+// 		if (m_copy == true)
+// 			mp_classModel->Copy(*tmp);
+// 		if (m_edit == true) {
+// 			delete mp_classModel;
+// 			mp_classModel = nullptr;
+// 			mp_classModel = tmp;
+// 		}
+        mp_classNameTxt->SetValue(mp_classModel->getName());
+        mp_nameSpaceTxt->SetValue(mp_classModel->getNameSpace());
+        mp_singletonChk->SetValue(mp_classModel->getSingleton());
 
-		PopulateInheritance(*tmp);
-		PopulateVariables(*tmp);
+		PopulateInheritance(*mp_classModel);
+		PopulateVariables(*mp_classModel);
     }
 }
 
@@ -411,7 +415,7 @@ void CreateClass::ClassSetup(const wxString& name)
 void CreateClass::PopulateInheritanceList(const wxString& ignore /*= ""*/)
 {
     mp_inheritanceLst->Clear();
-    std::vector<Model::cClassModel*>& classesModule = wxGetApp().getClassesModule();
+    std::vector<Model::cClassModel*>& classesModule = wxGetApp().getClassesModel();
     std::vector<Model::cClassModel*>::iterator it;
 
     std::string nametmp;
@@ -446,7 +450,7 @@ void CreateClass::GetInheritance(Model::cClassModel& classModule)
     for (int count = 0; count < intArray.GetCount(); count++) {
         string = mp_inheritanceLst->GetString(intArray.Index(count));
 
-        tmp = wxGetApp().getClassModule(string);
+        tmp = wxGetApp().getClassModel(string);
         if (tmp == nullptr)
             wxMessageBox(wxT("Error Class Not Found."), wxT("This is an Error."));
         else
@@ -515,11 +519,7 @@ void CreateClass::PopulateVariables(Model::cClassModel& classModel)
 	std::vector<Model::cVariableModel*> tmpList = classModel.getVariables();
 	std::vector<Model::cVariableModel*>::iterator it;
 
-	Model::cVariableModel* var = nullptr;
-
 	for (it = tmpList.begin(); it < tmpList.end(); it++) {
-		var = (*it);
-		m_varList.push_back(var);
-		mp_varList->AppendString(var->StringBuild());
+		mp_varList->AppendString((*it)->StringBuild());
 	}
 }

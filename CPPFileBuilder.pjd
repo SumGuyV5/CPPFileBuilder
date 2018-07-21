@@ -10,7 +10,7 @@
     <bool name="archive_image_files">1</bool>
     <bool name="archive_xrc_files">1</bool>
     <string name="author">""</string>
-    <string name="configuration">"VC++ Project Debug"</string>
+    <string name="configuration">"VC++ Project Release"</string>
     <string name="copyright_string">"(C) 2017 Richard W. Allen"</string>
     <string name="cpp_function_declaration_comment">"	/// %BODY%
 "</string>
@@ -204,7 +204,7 @@
           <string name="Compiler name">"VC++ Project"</string>
           <string name="Compiler version">"%AUTO%"</string>
           <string name="Debug flags">"%AUTO%"</string>
-          <bool name="dirty">0</bool>
+          <bool name="dirty">1</bool>
           <bool name="Enable .sln generation">1</bool>
           <bool name="Enable makefile generation">1</bool>
           <string name="Executable name">"%EXECUTABLE%"</string>
@@ -287,7 +287,7 @@
           <string name="Compiler name">"VC++ Project"</string>
           <string name="Compiler version">"%AUTO%"</string>
           <string name="Debug flags">"%AUTO%"</string>
-          <bool name="dirty">0</bool>
+          <bool name="dirty">1</bool>
           <bool name="Enable .sln generation">1</bool>
           <bool name="Enable makefile generation">1</bool>
           <string name="Executable name">"%EXECUTABLE%"</string>
@@ -405,7 +405,7 @@
           <bool name="use-id-prefix">0</bool>
           <bool name="use-id-suffix">0</bool>
           <long name="use-xrc">0</long>
-          <string name="variable-0">"m_classesModule|std::vector&lt;Module::cClassModule*&gt;|||2|0|"</string>
+          <string name="variable-0">"m_classesModel|std::vector&lt;Model::cClassModel*&gt;|||2|0|"</string>
           <long name="working-mode">0</long>
         </document>
         <document>
@@ -1104,8 +1104,7 @@
           <long name="use-xrc">0</long>
           <string name="variable-0">"m_copy|bool||false|2|0|is this and class that is being copped?"</string>
           <string name="variable-1">"m_edit|bool||false|2|0|is this and class that is being edited?"</string>
-          <string name="variable-2">"m_varList|std::vector&lt;Model::cVariableModel*&gt;|||2|0|"</string>
-          <string name="variable-3">"mp_classModel|Model::cClassModel*||nullptr|0|0|Class model for edit and copy"</string>
+          <string name="variable-2">"mp_classModel|Model::cClassModel*||new Model::cClassModel(&quot;&quot;, &quot;&quot;)|2|0|Class model for edit and copy"</string>
           <long name="working-mode">0</long>
           <document>
             <string name="proxy-type">"wbBoxSizerProxy"</string>
@@ -3088,7 +3087,7 @@
           <string name="language">""</string>
         </document>
         <document>
-          <string name="title">"Module"</string>
+          <string name="title">"Model"</string>
           <string name="type">"html-folder-document"</string>
           <string name="filename">""</string>
           <string name="icon-name">"folder"</string>
@@ -3098,51 +3097,51 @@
           <long name="locked">0</long>
           <string name="created">"12/7/2018"</string>
           <document>
-            <string name="title">"cClassModule.cpp"</string>
+            <string name="title">"cClassModel.cpp"</string>
             <string name="type">"source-editor-document"</string>
-            <string name="filename">"Module/cClassModule.cpp"</string>
+            <string name="filename">"Model/cClassModel.cpp"</string>
             <string name="icon-name">"source-editor"</string>
             <long name="is-transient">0</long>
             <long name="owns-file">0</long>
             <long name="title-mode">1</long>
             <long name="locked">0</long>
-            <string name="created">"12/7/2018"</string>
+            <string name="created">"20/7/2018"</string>
             <string name="language">""</string>
           </document>
           <document>
-            <string name="title">"cClassModule.hpp"</string>
+            <string name="title">"cClassModel.hpp"</string>
             <string name="type">"source-editor-document"</string>
-            <string name="filename">"Module/cClassModule.hpp"</string>
+            <string name="filename">"Model/cClassModel.hpp"</string>
             <string name="icon-name">"source-editor"</string>
             <long name="is-transient">0</long>
             <long name="owns-file">0</long>
             <long name="title-mode">1</long>
             <long name="locked">0</long>
-            <string name="created">"12/7/2018"</string>
+            <string name="created">"20/7/2018"</string>
             <string name="language">""</string>
           </document>
           <document>
-            <string name="title">"cVariableModule.cpp"</string>
+            <string name="title">"cVariableModel.cpp"</string>
             <string name="type">"source-editor-document"</string>
-            <string name="filename">"Module/cVariableModule.cpp"</string>
+            <string name="filename">"Model/cVariableModel.cpp"</string>
             <string name="icon-name">"source-editor"</string>
             <long name="is-transient">0</long>
             <long name="owns-file">0</long>
             <long name="title-mode">1</long>
             <long name="locked">0</long>
-            <string name="created">"12/7/2018"</string>
+            <string name="created">"20/7/2018"</string>
             <string name="language">""</string>
           </document>
           <document>
-            <string name="title">"cVariableModule.hpp"</string>
+            <string name="title">"cVariableModel.hpp"</string>
             <string name="type">"source-editor-document"</string>
-            <string name="filename">"Module/cVariableModule.hpp"</string>
+            <string name="filename">"Model/cVariableModel.hpp"</string>
             <string name="icon-name">"source-editor"</string>
             <long name="is-transient">0</long>
             <long name="owns-file">0</long>
             <long name="title-mode">1</long>
             <long name="locked">0</long>
-            <string name="created">"12/7/2018"</string>
+            <string name="created">"20/7/2018"</string>
             <string name="language">""</string>
           </document>
         </document>
@@ -3228,6 +3227,18 @@
             <string name="created">"12/7/2018"</string>
             <string name="language">""</string>
           </document>
+        </document>
+        <document>
+          <string name="title">"resource.cpp"</string>
+          <string name="type">"source-editor-document"</string>
+          <string name="filename">"resource.cpp"</string>
+          <string name="icon-name">"source-editor"</string>
+          <long name="is-transient">0</long>
+          <long name="owns-file">0</long>
+          <long name="title-mode">1</long>
+          <long name="locked">0</long>
+          <string name="created">"20/7/2018"</string>
+          <string name="language">""</string>
         </document>
       </document>
       <document>

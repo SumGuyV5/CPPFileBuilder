@@ -6,7 +6,7 @@
 // Created:     14/07/2018 21:39:24
 // RCS-ID:      
 // Copyright:   (C) 2017 Richard W. Allen
-// Licence:     
+// Licence:     GPL 2
 /////////////////////////////////////////////////////////////////////////////
 
 #ifndef _CREATECLASS_H_
@@ -141,11 +141,10 @@ public:
     wxTextCtrl* mp_valueTxt;
     wxCheckBox* mp_getterChBox;
     wxCheckBox* mp_setterChBox;
-    Model::cClassModel* mp_classModel; // Class model for edit and copy
 private:
     bool m_copy; // is this and class that is being copped?
     bool m_edit; // is this and class that is being edited?
-    std::vector<Model::cVariableModel*> m_varList;
+    Model::cClassModel* mp_classModel; // Class model for edit and copy
 ////@end CreateClass member variables
 };
 

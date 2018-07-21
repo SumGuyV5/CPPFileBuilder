@@ -1,3 +1,13 @@
+/////////////////////////////////////////////////////////////////////////////
+// Name:        cVariableModel.cpp
+// Purpose:     
+// Author:      Richard W. Allen
+// Modified by: 
+// Created:     14/07/2018 21:38:08
+// RCS-ID:      
+// Copyright:   (C) 2017 Richard W. Allen
+// Licence:     GPL 2
+/////////////////////////////////////////////////////////////////////////////
 #include "cVariableModel.hpp"
 
 using Model::cVariableModel;
@@ -7,7 +17,15 @@ cVariableModel::cVariableModel()
 	m_name(""), m_value(""), m_getters(false), m_setters(false)
 {}
 
-cVariableModel& cVariableModel::operator=(const cVariableModel& copy)
+cVariableModel::cVariableModel(cVariableModel& copy)
+{
+	Copy(copy);
+}
+
+cVariableModel::~cVariableModel()
+{}
+
+cVariableModel& cVariableModel::Copy(cVariableModel& copy, const bool deep /*= true*/)
 {
 	if (this != &copy)
 	{
@@ -26,9 +44,6 @@ cVariableModel& cVariableModel::operator=(const cVariableModel& copy)
 	}
 	return *this;
 }
-
-cVariableModel::~cVariableModel()
-{}
 
 const std::string cVariableModel::StringBuild() const
 {
@@ -121,12 +136,12 @@ const cVariableModel::ePointer cVariableModel::getPointer() const
 	return m_pointer;
 }
 
-const std::string cVariableModel::getName() const
+const std::string& cVariableModel::getName() const
 {
 	return m_name;
 }
 
-const std::string cVariableModel::getValue() const
+const std::string& cVariableModel::getValue() const
 {
 	return m_value;
 }
@@ -187,7 +202,13 @@ void cVariableModel::setSetters(const bool setters)
 	m_setters = setters;
 }
 
+/// operators
 bool cVariableModel::operator == (const cVariableModel& rhs) const
 {
 	return (m_name == rhs.getName());
+}
+
+cVariableModel& cVariableModel::operator=(cVariableModel& copy)
+{
+	return Copy(copy);
 }

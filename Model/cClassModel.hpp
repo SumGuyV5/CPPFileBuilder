@@ -1,3 +1,13 @@
+/////////////////////////////////////////////////////////////////////////////
+// Name:        ClassModel.hpp
+// Purpose:     
+// Author:      Richard W. Allen
+// Modified by: 
+// Created:     14/07/2018 21:38:08
+// RCS-ID:      
+// Copyright:   (C) 2017 Richard W. Allen
+// Licence:     GPL 2
+/////////////////////////////////////////////////////////////////////////////
 #ifndef _CCLASSMODEL_HPP_
 #define _CCLASSMODEL_HPP_
 
@@ -14,7 +24,10 @@ namespace Model {
 	{
 	public:
 		cClassModel(const std::string& name, const std::string& nameSpace);
+		cClassModel(cClassModel& copy);
 		~cClassModel();
+
+		cClassModel& Copy(cClassModel& copy, bool deep = true);
 
 		void BuildCPPFile();
 		void CleanInheritance();

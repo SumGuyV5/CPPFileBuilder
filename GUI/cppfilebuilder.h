@@ -6,7 +6,7 @@
 // Created:     14/07/2018 21:37:43
 // RCS-ID:      
 // Copyright:   (C) 2017 Richard W. Allen
-// Licence:     
+// Licence:     GPL 2
 /////////////////////////////////////////////////////////////////////////////
 
 #ifndef _CPPFILEBUILDER_H_

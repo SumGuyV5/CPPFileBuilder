@@ -6,7 +6,7 @@
 // Created:     14/07/2018 21:35:22
 // RCS-ID:      
 // Copyright:   (C) 2017 Richard W. Allen
-// Licence:     
+// Licence:     GPL 2
 /////////////////////////////////////////////////////////////////////////////
 
 #ifndef _CPPFILEBUILDERAPP_H_
@@ -61,20 +61,20 @@ public:
     /// Called on exit
     virtual int OnExit();
 
-    /// Get the ClassesModule Vector
-    std::vector<Model::cClassModel*>& getClassesModule();
+    /// Get the ClassesModel Vector
+    std::vector<Model::cClassModel*>& getClassesModel();
 
-    /// Get ClassModule pointer by single string
-    Model::cClassModel* getClassModule(const wxString& name);
+    /// Get ClassModel pointer by single string
+    Model::cClassModel* getClassModel(const wxString& name);
 
-    /// Get ClassModule pointer by class name and namespace
-    Model::cClassModel* getClassModule(const wxString& nameClass, const wxString& nameSpace);
+    /// Get ClassModel pointer by class name and namespace
+    Model::cClassModel* getClassModel(const wxString& nameClass, const wxString& nameSpace);
 
-    /// Set ClassModule
-    void setClassesModule(Model::cClassModel* value);
+    /// Set ClassModel
+    void setClassesModel(Model::cClassModel* value);
 
-    /// Removes that ClassModule that is passed to it from the vector
-    void RemoveModule(const Model::cClassModel& module);
+    /// Removes that ClassModel that is passed to it from the vector
+    void RemoveModel(const Model::cClassModel& module);
 
     /// Generate Source Files and Header files
     void GenerateSourceFiles();
@@ -89,7 +89,7 @@ public:
 
 ////@begin CPPFileBuilderApp member variables
 private:
-	std::vector<Model::cClassModel*> m_classesModule;
+	std::vector<Model::cClassModel*> m_classesModel;
 ////@end CPPFileBuilderApp member variables
 };
 

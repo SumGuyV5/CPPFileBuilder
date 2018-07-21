@@ -6,7 +6,7 @@
 // Created:     14/07/2018 21:35:22
 // RCS-ID:      
 // Copyright:   (C) 2017 Richard W. Allen
-// Licence:     
+// Licence:     GPL 2
 /////////////////////////////////////////////////////////////////////////////
 
 // For compilers that support precompilation, includes "wx/wx.h".
@@ -25,6 +25,9 @@
 ////@end includes
 
 #include "cppfilebuilderapp.h"
+
+
+extern void InitXmlResource();
 
 ////@begin XPM images
 ////@end XPM images
@@ -84,13 +87,14 @@ void CPPFileBuilderApp::Init()
 
 bool CPPFileBuilderApp::OnInit()
 {    
-////@begin CPPFileBuilderApp initialisation
+
 	// Remove the comment markers above and below this block
 	// to make permanent changes to the code.
 
 	wxXmlResource::Get()->InitAllHandlers();
-	wxFileSystem::AddHandler(new wxZipFSHandler);
-	wxXmlResource::Get()->Load(wxT("resource.xrc"));
+    InitXmlResource();
+	//wxFileSystem::AddHandler(new wxZipFSHandler);
+	//wxXmlResource::Get()->Load(wxT("resource.xrc"));
 
 #if wxUSE_XPM
 	wxImage::AddHandler(new wxXPMHandler);
@@ -111,7 +115,6 @@ bool CPPFileBuilderApp::OnInit()
 	mainWindow->Destroy();
 	// A modal dialog application should return false to terminate the app.
 	//return false;
-////@end CPPFileBuilderApp initialisation
 
     return true;
 }
@@ -125,11 +128,11 @@ int CPPFileBuilderApp::OnExit()
 {    
 	std::vector<Model::cClassModel*>::iterator it;
 
-	for (it = m_classesModule.begin(); it < m_classesModule.end(); it++) {
+	for (it = m_classesModel.begin(); it < m_classesModel.end(); it++) {
 		delete (*it);
 		(*it) = nullptr;
 	}
-	m_classesModule.clear();
+	m_classesModel.clear();
 ////@begin CPPFileBuilderApp cleanup
 	return wxApp::OnExit();
 ////@end CPPFileBuilderApp cleanup
@@ -140,16 +143,16 @@ int CPPFileBuilderApp::OnExit()
  * Get the ClassesModule Vector
  */
 
-std::vector<Model::cClassModel*>& CPPFileBuilderApp::getClassesModule()
+std::vector<Model::cClassModel*>& CPPFileBuilderApp::getClassesModel()
 {
-    return m_classesModule;
+    return m_classesModel;
 }
 
 /*
  * Get ClassModule pointer by single string
  */
 
-Model::cClassModel* CPPFileBuilderApp::getClassModule(const wxString& name)
+Model::cClassModel* CPPFileBuilderApp::getClassModel(const wxString& name)
 {
     Model::cClassModel* rtn = nullptr;
 
@@ -161,7 +164,7 @@ Model::cClassModel* CPPFileBuilderApp::getClassModule(const wxString& name)
         nameSpace = name.Mid(0, name.Find(':'));
     }
 
-    rtn = getClassModule(nameClass, nameSpace);
+    rtn = getClassModel(nameClass, nameSpace);
 
     return rtn;
 }
@@ -170,10 +173,10 @@ Model::cClassModel* CPPFileBuilderApp::getClassModule(const wxString& name)
  * Get ClassModule pointer by class name and namespace
  */
 
-Model::cClassModel* CPPFileBuilderApp::getClassModule(const wxString& nameClass, const wxString& nameSpace)
+Model::cClassModel* CPPFileBuilderApp::getClassModel(const wxString& nameClass, const wxString& nameSpace)
 {
 	Model::cClassModel* rtn = nullptr;
-	std::vector<Model::cClassModel*>& classesModule = wxGetApp().getClassesModule();
+	std::vector<Model::cClassModel*>& classesModule = wxGetApp().getClassesModel();
 	std::vector<Model::cClassModel*>::iterator it;
 
 	for (it = classesModule.begin(); it < classesModule.end(); it++) {
@@ -191,24 +194,24 @@ Model::cClassModel* CPPFileBuilderApp::getClassModule(const wxString& nameClass,
  * Set ClassModule
  */
 
-void CPPFileBuilderApp::setClassesModule(Model::cClassModel* value)
+void CPPFileBuilderApp::setClassesModel(Model::cClassModel* value)
 {
-    m_classesModule.push_back(value);
+    m_classesModel.push_back(value);
 }
 
 /*
  * Removes that ClassModule that is passed to it from the vector
  */
 
-void CPPFileBuilderApp::RemoveModule(const Model::cClassModel& module)
+void CPPFileBuilderApp::RemoveModel(const Model::cClassModel& module)
 {
 std::vector<Model::cClassModel*>::iterator it;
 
-    for (it = m_classesModule.begin(); it < m_classesModule.end(); it++) {
+    for (it = m_classesModel.begin(); it < m_classesModel.end(); it++) {
         if (module == *(*it)) {
             delete (*it);
             (*it) = nullptr;
-            m_classesModule.erase(it);
+            m_classesModel.erase(it);
             break;
         }
     }
@@ -222,6 +225,6 @@ void CPPFileBuilderApp::GenerateSourceFiles()
 {
     std::vector<Model::cClassModel*>::iterator it;
 
-    for (it = m_classesModule.begin(); it < m_classesModule.end(); it++)
+    for (it = m_classesModel.begin(); it < m_classesModel.end(); it++)
         (*it)->BuildCPPFile();
 }

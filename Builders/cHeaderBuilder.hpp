@@ -1,3 +1,13 @@
+/////////////////////////////////////////////////////////////////////////////
+// Name:        cHeaderBuilder.hpp
+// Purpose:     
+// Author:      Richard W. Allen
+// Modified by: 
+// Created:     14/07/2018 21:38:08
+// RCS-ID:      
+// Copyright:   (C) 2017 Richard W. Allen
+// Licence:     GPL 2
+/////////////////////////////////////////////////////////////////////////////
 #ifndef _CHEADERBUILDER_HPP_
 #define _CHEADERBUILDER_HPP_
 

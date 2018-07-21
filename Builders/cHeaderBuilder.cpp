@@ -1,3 +1,13 @@
+/////////////////////////////////////////////////////////////////////////////
+// Name:        cHeaderBuilder.cpp
+// Purpose:     
+// Author:      Richard W. Allen
+// Modified by: 
+// Created:     14/07/2018 21:38:08
+// RCS-ID:      
+// Copyright:   (C) 2017 Richard W. Allen
+// Licence:     GPL 2
+/////////////////////////////////////////////////////////////////////////////
 #include "cHeaderBuilder.hpp"
 
 using Builders::cBaseBuilder;

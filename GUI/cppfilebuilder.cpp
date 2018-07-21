@@ -6,7 +6,7 @@
 // Created:     14/07/2018 21:36:31
 // RCS-ID:      
 // Copyright:   (C) 2017 Richard W. Allen
-// Licence:     
+// Licence:     GPL 2
 /////////////////////////////////////////////////////////////////////////////
 
 // For compilers that support precompilation, includes "wx/wx.h".
@@ -199,9 +199,9 @@ void CPPFileBuilder::OnDeleteClassClick( wxCommandEvent& event )
 			nameSpace = name.Mid(0, name.Find(':'));
 		}
 
-		Model::cClassModel* classModule = wxGetApp().getClassModule(nameClass, nameSpace);
+		Model::cClassModel* classModule = wxGetApp().getClassModel(nameClass, nameSpace);
 
-		wxGetApp().RemoveModule(*classModule);
+		wxGetApp().RemoveModel(*classModule);
 
 		PopulateChoiceList();
 	}
@@ -300,7 +300,7 @@ wxIcon CPPFileBuilder::GetIconResource( const wxString& name )
 void  CPPFileBuilder::PopulateChoiceList()
 {
 	mp_classChoice->Clear();
-    std::vector<Model::cClassModel*>& classesModule = wxGetApp().getClassesModule();
+    std::vector<Model::cClassModel*>& classesModule = wxGetApp().getClassesModel();
     if (mp_classChoice != nullptr) {
         std::vector<Model::cClassModel*>::iterator it;
 
